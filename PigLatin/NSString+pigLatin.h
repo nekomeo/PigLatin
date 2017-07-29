@@ -10,5 +10,6 @@
 
 @interface NSString (PigLatin)
 - (NSString *)stringByPigLatinization;
+- (NSString *)stringByAppendingStringWithPigLatinToEachWord;
 
 @end
