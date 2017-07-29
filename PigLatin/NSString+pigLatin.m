@@ -8,6 +8,16 @@
 
 #import "NSString+pigLatin.h"
 
+@interface NSString()
+
+@property (nonatomic) NSMutableArray *arrayOfLetters;
+@property (nonatomic) NSString *word;
+@property (nonatomic) NSString *pigLatin;
+
+- (NSMutableArray *)arrayOfLettersInWord:(NSString *)word;
+
+@end
+
 @implementation NSString (PigLatin)
 
 - (NSString *)stringByPigLatinization
@@ -19,70 +29,24 @@
 {
     NSArray *words = [self componentsSeparatedByString:@" "];
     NSMutableArray *appendWords = [NSMutableArray array];
+    NSCharacterSet *vowelSet = [NSCharacterSet characterSetWithCharactersInString:@"aeiouy"];
     
+    // Pig latin the word individually
     for (NSString *word in words)
     {
-        [appendWords addObject:[word stringByPigLatinization]];
+        int indexNumber = 1;
+        
+        if (![vowelSet characterIsMember:[word characterAtIndex:1]])
+        {
+            indexNumber = 2;
+        }
+        NSString *firstChar = [[word substringToIndex:indexNumber] stringByAppendingString:@"ay"];
+        NSString *restOfWord = [word substringFromIndex:indexNumber];
+        
+        [appendWords addObject:[restOfWord stringByAppendingString:firstChar]];
+        
     }
     return [appendWords componentsJoinedByString:@" "];
 }
-
-//-(NSString *)stringByPigLatinization
-//{
-//    // Convert sentence to array of words
-//    NSMutableString *words = [self componentsSeparatedByCharactersInSet:@" "];
-//    NSMutableArray *pigLatined = [NSMutableArray array];
-//    
-//    // Pig latinize the word individually
-//    for (NSString *word in pigLatined)
-//    { // If a word starts with a consonant, move the beginning components to the end and add 'ay'
-//        NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@"aeiouy"];
-//        NSRange range = [word rangeOfCharacterFromSet:characterSet options:[NSCaseInsensitiveSearch]];
-//        
-//        if (range.location == NSNotFound)
-//        { // If a word starts with a vowel, just add 'way' to the end
-//            NSString *pigged = [word stringByAppendingString:@"way"];
-//            [pigLatined addObject:pigged];
-//        }
-//        else
-//        {
-//            NSArray *consonants = [NSMutableArray array];
-//            
-//            for (int i = 0; i < word.length; i++)
-//            {
-//                NSString *currentLetter = [NSString stringWithFormat:@"%c", [word characterAtIndex:i]];
-//                
-//                NSRange range = [word rangeOfString:characterSet options:[NSCaseInsensitiveSearch]];
-//                
-//                if (range.location == NSNotFound)
-//                { // Vowels
-//                    // remove consonants from the beginning
-//                    NSString *removedConsonants = [word substringFromIndex:i];
-//                    
-//                    // add them to the end
-//                    NSString *consonantsString = [consonants componentsJoinedByString:@""];
-//                    NSString *addedToEnd = [removedConsonants stringByAppendingString:consonantsString];
-//                    
-//                    // add ay
-//                    NSString *pigged = [addedToEnd stringByAppendingString:@"ay"];
-//                    [pigLatined addObject:pigged];
-//                    break;
-//                }
-//                else
-//                {
-//                    // Consonants
-//                    [consonants arrayByAddingObject:currentLetter];
-//                }
-//                [pigLatined addObject:word];
-//            }
-//            [word componentsSeparatedByString:@" "];
-//            [NSString stringWithFormat:@"%c", [word characterAtIndex:range.location]];
-//            [pigLatined addObject:word];
-//        }
-//        
-//        // Reconnect all the words back into a sentence
-//        return [pigLatined componentsJoinedByString:@" "];
-//    }
-//}
 
 @end

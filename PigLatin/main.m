@@ -12,8 +12,9 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
-        NSString *originalWord = @"Pineapple cake";
-        NSLog(@"Original word: %@.\nPig Latinized: %@", originalWord, [originalWord stringByAppendingStringWithPigLatinToEachWord]);
+        NSString *originalWord = @"pig latin too cheers stupid always are";
+        NSLog(@"%@", [originalWord stringByAppendingStringWithPigLatinToEachWord]);
+        
     }
     return 0;
 }
